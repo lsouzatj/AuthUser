@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 import com.ead.authUser.models.UserModel;
 
 public interface UserService {
@@ -19,5 +23,7 @@ public interface UserService {
 	Optional<UserModel> findById(UUID userId);
 
 	void delet(UserModel userModel);
+	
+	Page<UserModel> findAllPageable(Specification<UserModel> spec, Pageable pageable);
 
 }

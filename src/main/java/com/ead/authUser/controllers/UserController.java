@@ -5,6 +5,10 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ead.authUser.dtos.UserDTO;
+import com.ead.authUser.models.UserModel;
 import com.ead.authUser.services.UserService;
+import com.ead.authUser.specification.SpecificationTemplate;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
@@ -28,15 +34,20 @@ public final class UserController {
 	UserService userService;
 	
 	@GetMapping("allUsers")
-	public ResponseEntity<Object> getAllUser(){
+	public ResponseEntity<Object> getAllUser(SpecificationTemplate.UserSpect spec,
+										     @PageableDefault(page = 0, 
+										     size = 2, 
+										     sort = "userName",
+										     direction = Sort.Direction.DESC) 
+										     Pageable pageable){
 		
-		var listUserModel = userService.findAll();
+		Page<UserModel> pageUserModel = userService.findAllPageable(spec, pageable);
 		
-		if (listUserModel.get().isEmpty()) {
+		if (pageUserModel.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("List users not found");
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(listUserModel);
+		return ResponseEntity.status(HttpStatus.OK).body(pageUserModel);
 	}
 	
 	@GetMapping("/{userId}")
