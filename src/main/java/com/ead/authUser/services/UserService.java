@@ -2,6 +2,7 @@ package com.ead.authUser.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.ead.authUser.models.UserModel;
 
@@ -14,5 +15,7 @@ public interface UserService {
 	void save(UserModel userModel);
 
 	Optional<List<UserModel>> findAll();
+
+	Optional<UserModel> findById(UUID userId);
 
 }

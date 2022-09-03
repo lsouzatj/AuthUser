@@ -2,6 +2,7 @@ package com.ead.authUser.services.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,13 @@ public final class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		
 		return Optional.of(userRepository.findAll());
+	}
+
+	@Override
+	public Optional<UserModel> findById(UUID userId) {
+		// TODO Auto-generated method stub
+		
+		return userRepository.findById(userId);
 	}
 
 }
