@@ -52,4 +52,11 @@ public final class UserServiceImpl implements UserService{
 		return userRepository.findById(userId);
 	}
 
+	@Override
+	public void delet(UserModel userModel) {
+		// TODO Auto-generated method stub
+		
+		userRepository.delete(userModel);
+	}
+
 }

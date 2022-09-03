@@ -18,4 +18,6 @@ public interface UserService {
 
 	Optional<UserModel> findById(UUID userId);
 
+	void delet(UserModel userModel);
+
 }
