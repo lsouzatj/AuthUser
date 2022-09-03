@@ -18,6 +18,7 @@ import com.ead.authUser.enums.UserStatus;
 import com.ead.authUser.enums.UserType;
 import com.ead.authUser.models.UserModel;
 import com.ead.authUser.services.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("auth")
@@ -27,8 +28,9 @@ public final class AuthenticationController {
 	UserService userService;
 	
 	@PostMapping("signup")
-	public ResponseEntity<Object> registerUser(@RequestBody 
-											   @Validated
+	public ResponseEntity<Object> registerUser(@JsonView(UserDTO.UserView.RegistrationPost.class)
+											   @RequestBody 
+											   @Validated(UserDTO.UserView.RegistrationPost.class)
 											   UserDTO userDTO){
 		
 		if (userService.existsUserByUserName(userDTO.getUserName())) {
