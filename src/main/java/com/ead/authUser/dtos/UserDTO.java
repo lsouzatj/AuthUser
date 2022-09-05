@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.ead.authUser.validation.UserNameConstraint;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -24,6 +25,7 @@ public final class UserDTO {
 
 	private UUID userId;
 
+	@UserNameConstraint(message = "{userName.format}",groups = UserView.RegistrationPost.class)
 	@JsonView(UserView.RegistrationPost.class)
 	@NotBlank(message = "{userName.notBlank}", groups = UserView.RegistrationPost.class)
 	@Size(min = 4, max = 50, message = "{userName.size}", groups = UserView.RegistrationPost.class)
