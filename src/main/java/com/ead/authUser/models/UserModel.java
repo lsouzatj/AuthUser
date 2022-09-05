@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.ead.authUser.enums.UserStatus;
 import com.ead.authUser.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -26,7 +28,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "TB_USERS")
-public final class UserModel implements Serializable{
+public final class UserModel extends RepresentationModel<UserModel> implements Serializable{
 
 	/**
 	 * 

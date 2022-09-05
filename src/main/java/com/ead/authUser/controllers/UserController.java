@@ -1,5 +1,6 @@
 package com.ead.authUser.controllers;
 
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+
 import com.ead.authUser.dtos.UserDTO;
 import com.ead.authUser.models.UserModel;
 import com.ead.authUser.services.UserService;
@@ -28,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("users")
-public final class UserController {
+public class UserController {
 
 	@Autowired
 	UserService userService;
@@ -45,6 +50,10 @@ public final class UserController {
 		
 		if (pageUserModel.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("List users not found");
+		}
+		
+		for (UserModel userModel : pageUserModel.toList()) {
+			userModel.add(linkTo(methodOn(UserController.class).getOneUser(userModel.getUserId())).withSelfRel());
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(pageUserModel);
